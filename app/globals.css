@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --ink: #0a0a0a;
+  --paper: #fffdf8;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+::selection {
+  background: #e31b23;
+  color: white;
+}
+
+.grain {
+  position: relative;
+}
+
+.grain::before {
+  background-image: radial-gradient(rgba(10, 10, 10, 0.08) 0.7px, transparent 0.7px);
+  background-size: 8px 8px;
+  content: "";
+  inset: 0;
+  opacity: 0.22;
+  pointer-events: none;
+  position: absolute;
+}
+
+.marquee {
+  animation: marquee 22s linear infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.clip-slant {
+  clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
+}
+
+.focus-ring {
+  @apply focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-burger-red;
+}
