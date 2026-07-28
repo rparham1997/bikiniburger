@@ -52,7 +52,7 @@ export function Hero() {
           <div className="mt-5 grid max-w-xl gap-4 rounded-lg border border-white/15 bg-white/10 p-3 backdrop-blur sm:grid-cols-[128px_1fr] sm:items-center">
             <div className="relative min-h-[120px] overflow-hidden rounded-md bg-white">
               <Image
-                src="/images/bikini-burger-cane-sugar-soda-real.jpg"
+                src="/images/bikini-burger-soda-lineup.jpg"
                 alt="Bikini Burger cane sugar soda"
                 fill
                 sizes="128px"

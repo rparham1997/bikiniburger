@@ -3,7 +3,7 @@ export type MenuItem = {
   name: string;
   price?: number;
   priceLabel?: string;
-  category: "Daily Special" | "Burgers" | "Shakes & Sides" | "Kids Meals" | "Merch";
+  category: "Daily Special" | "Burgers" | "Shakes & Sides" | "Toppings" | "Kids Meals" | "Merch";
   description: string;
   image: string;
   badge?: string;
@@ -15,7 +15,7 @@ export const menuItems: MenuItem[] = [
     name: "Daily Special",
     price: 20,
     category: "Daily Special",
-    description: "Single burger with fries and a Bikini Soda.",
+    description: "Single burger with fries and a Bikini Soda. Add cheese for $1.",
     image: "/images/bikini-burger-real-food-1.jpg",
     badge: "Burger, fries & soda"
   },
@@ -24,24 +24,33 @@ export const menuItems: MenuItem[] = [
     name: "Beef Burger",
     price: 11,
     category: "Burgers",
-    description: "Classic beef burger with lettuce, tomato and onion.",
+    description: "Classic beef burger with lettuce, tomato, and onion. Add cheese for $1.",
     image: "/images/bikini-burger-real-food-6.jpg",
     badge: "Classic"
   },
   {
+    id: "single-cheeseburger",
+    name: "Single Cheeseburger",
+    price: 12,
+    category: "Burgers",
+    description: "Classic beef cheeseburger with lettuce, tomato, and onion.",
+    image: "/images/bikini-burger-real-food-6.jpg",
+    badge: "Cheese"
+  },
+  {
     id: "cheesesteak-platter",
     name: "Cheesesteak Platter",
-    price: 18,
+    price: 24,
     category: "Burgers",
-    description: "Cheesesteak platter served with fries and potato salad.",
+    description: "Cheesesteak platter served with fries, potato salad, and a Bikini Soda.",
     image: "/images/bikini-burger-real-food-1.jpg"
   },
   {
     id: "beef-burger-platter",
     name: "Beef Burger Platter",
-    price: 17,
+    price: 18,
     category: "Burgers",
-    description: "Beef burger platter with fries and potato salad.",
+    description: "Beef burger platter with fries, potato salad, and a Bikini Soda. Add cheese for $1.",
     image: "/images/bikini-burger-real-food-1.jpg"
   },
   {
@@ -49,15 +58,15 @@ export const menuItems: MenuItem[] = [
     name: "Turkey Burger",
     price: 11,
     category: "Burgers",
-    description: "Turkey burger with lettuce, tomato and onion.",
+    description: "Turkey burger with lettuce, tomato, and onion. Add cheese for $1.",
     image: "/images/bikini-burger-real-food-5.jpg"
   },
   {
     id: "turkey-burger-platter",
     name: "Turkey Burger Platter",
-    price: 17,
+    price: 19,
     category: "Burgers",
-    description: "Turkey burger platter with fries and potato salad.",
+    description: "Turkey burger platter with fries, potato salad, and a Bikini Soda. Add cheese for $1.",
     image: "/images/bikini-burger-real-food-3.jpg"
   },
   {
@@ -65,7 +74,7 @@ export const menuItems: MenuItem[] = [
     name: "Surf & Turf Burger",
     price: 20,
     category: "Burgers",
-    description: "Surf & turf burger with shrimp. Make it a fries order for $23.",
+    description: "Surf & turf burger with shrimp. Make it a combo with fries and a Bikini Soda for $23. Add cheese for $1.",
     image: "/images/bikini-burger-real-food-4.jpg",
     badge: "Signature"
   },
@@ -74,7 +83,7 @@ export const menuItems: MenuItem[] = [
     name: "Fat Daddy Steakhouse",
     price: 20,
     category: "Burgers",
-    description: "A loaded steakhouse-style Bikini Burger special with melted cheese and big flavor. Make it a fries order for $23.",
+    description: "A loaded steakhouse-style Bikini Burger special with melted cheese and big flavor. Add a soda and fries to make it $23.",
     image: "/images/bikini-burger-fat-daddy-steakhouse.jpg",
     badge: "Special"
   },
@@ -83,7 +92,7 @@ export const menuItems: MenuItem[] = [
     name: "Pizza Burger",
     price: 20,
     category: "Burgers",
-    description: "A saucy burger special with melted cheese, onions and pizza-shop comfort. Make it a fries order for $23.",
+    description: "A saucy burger special with melted cheese, onions, and pizza-shop comfort. Make it a combo with fries and a Bikini Soda for $23.",
     image: "/images/bikini-burger-pizza-burger.jpg",
     badge: "Special"
   },
@@ -92,16 +101,16 @@ export const menuItems: MenuItem[] = [
     name: "Hot Dog and Fries Platter",
     price: 13,
     category: "Burgers",
-    description: "Loaded hot dog with onions, relish, mustard, ketchup and a tray of crinkle-cut fries.",
+    description: "Loaded hot dog with onions, relish, mustard, ketchup, crinkle-cut fries, and a Bikini Soda. Add cheese for $1.",
     image: "/images/bikini-burger-hot-dog-fries-platter.jpg",
     badge: "Special"
   },
   {
     id: "butterfly-shrimp-platter",
     name: "Butterfly Shrimp Platter",
-    price: 13,
+    price: 23,
     category: "Burgers",
-    description: "Crispy butterfly shrimp with crinkle-cut fries and a side of slaw.",
+    description: "Crispy butterfly shrimp with crinkle-cut fries, a side of slaw, and a Bikini Soda.",
     image: "/images/bikini-burger-butterfly-shrimp-platter.jpg",
     badge: "Special"
   },
@@ -117,9 +126,9 @@ export const menuItems: MenuItem[] = [
   {
     id: "double-cheeseburger-bikini-wrap",
     name: "Double Cheeseburger on a Bikini Wrap",
-    price: 15,
+    price: 15.63,
     category: "Burgers",
-    description: "Double cheeseburger stacked into a Bikini wrap with lettuce, tomato, onion and pickles.",
+    description: "Double cheeseburger stacked into a Bikini wrap with lettuce, tomato, onion, and pickles.",
     image: "/images/bikini-burger-double-wrap.jpg",
     badge: "Wrap option"
   },
@@ -128,7 +137,7 @@ export const menuItems: MenuItem[] = [
     name: "Triple Cheeseburger",
     price: 17,
     category: "Burgers",
-    description: "A triple stack for the late-night 11 PM appetite.",
+    description: "A triple stack for the late-night 11 PM appetite. Make it a combo with fries and a Bikini Soda for $23.",
     image: "/images/bikini-burger-real-food-3.jpg"
   },
   {
@@ -136,7 +145,7 @@ export const menuItems: MenuItem[] = [
     name: "Veggie Burger",
     price: 11,
     category: "Burgers",
-    description: "Black bean veggie burger with the same care as the classics.",
+    description: "Black bean veggie burger with the same care as the classics. Add fries and a Bikini Soda for $17. Add cheese for $1.",
     image: "https://images.unsplash.com/photo-1520072959219-c595dc870360?auto=format&fit=crop&w=1200&q=80"
   },
   {
@@ -144,7 +153,7 @@ export const menuItems: MenuItem[] = [
     name: "Fries",
     price: 6.25,
     category: "Shakes & Sides",
-    description: "Whole potato crinkle-cut fries, hot and ready for dipping.",
+    description: "Whole-potato crinkle-cut fries, hot and ready for dipping.",
     image: "/images/bikini-burger-side-photo-2960.jpg",
     badge: "Must add"
   },
@@ -169,10 +178,10 @@ export const menuItems: MenuItem[] = [
   {
     id: "soda",
     name: "Bikini Soda",
-    price: 4,
+    price: 3.5,
     category: "Shakes & Sides",
-    description: "Made with pure cane sugar. Only burger shop in America with its own soda.",
-    image: "/images/bikini-burger-cane-sugar-soda-real.jpg",
+    description: "Made with pure cane sugar. Flavors: Root Beer, Sparkling Water, Black Cherry, Grape Soda, Orange Soda, and Vanilla Cream. The only burger shop in America with its own soda.",
+    image: "/images/bikini-burger-soda-lineup.jpg",
     badge: "Pure cane sugar"
   },
   {
@@ -181,7 +190,7 @@ export const menuItems: MenuItem[] = [
     price: 2,
     category: "Shakes & Sides",
     description: "A little sidewalk treat for the four-legged regulars.",
-    image: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=1200&q=80"
+    image: "/images/bikini-burger-pup-cups-sign.jpg"
   },
   {
     id: "milkshakes",
@@ -193,11 +202,38 @@ export const menuItems: MenuItem[] = [
     badge: "Real ice cream"
   },
   {
+    id: "bacon-topping",
+    name: "Bacon",
+    price: 3.13,
+    category: "Toppings",
+    description: "Add crispy bacon to your burger, wrap, or platter.",
+    image: "https://images.unsplash.com/photo-1542221392-8d45295245ef?auto=format&fit=crop&w=1200&q=80",
+    badge: "Add-on"
+  },
+  {
+    id: "jalapenos-topping",
+    name: "Jalapenos",
+    price: 1.04,
+    category: "Toppings",
+    description: "Add jalapenos for a little heat.",
+    image: "https://images.unsplash.com/photo-1599987141071-f5810d32e21a?auto=format&fit=crop&w=1200&q=80",
+    badge: "Add-on"
+  },
+  {
+    id: "mushrooms-topping",
+    name: "Mushrooms",
+    price: 1.04,
+    category: "Toppings",
+    description: "Add mushrooms to your burger, wrap, or platter.",
+    image: "https://images.unsplash.com/photo-1583328656355-c9594923462c?auto=format&fit=crop&w=1200&q=80",
+    badge: "Add-on"
+  },
+  {
     id: "kids-meal",
     name: "Kids Meals",
     price: 10.99,
     category: "Kids Meals",
-    description: "Includes burger, fries and drink of choice.",
+    description: "Includes a burger, fries, and a drink of choice. Add cheese for $1.",
     image: "/images/bikini-burger-real-food-6.jpg"
   }
 ];
@@ -212,7 +248,7 @@ export const merchItems: MenuItem[] = [
     name: "Bikini Burger Sweatshirt",
     price: 35,
     category: "Merch",
-    description: "Red logo sweatshirt. Select size at pickup or add a preferred size in checkout notes.",
+    description: "Red logo sweatshirt. Select a size at pickup or add a preferred size in checkout notes.",
     image: "/images/bikini-burger-merch.jpg",
     badge: "Custom merch"
   },

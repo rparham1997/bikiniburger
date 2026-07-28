@@ -41,7 +41,7 @@ export function HomeSections() {
         <div className="mx-auto max-w-7xl">
           <SectionHeading
             eyebrow="Featured menu"
-            title="Homemade style brugers that reminds you of a old school cookout"
+            title="Homemade-style burgers that remind you of an old-school cookout"
             copy="Classic, simple burgers with quality up front: custom butcher beef, seeded rolls, Cooper Sharp, crisp lettuce, tomato, onion and dill pickle."
           />
           <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">

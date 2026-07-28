@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description: "Browse burgers, platters, sides and kids meals from Bikini Burger in Ardmore, PA."
 };
 
-const categories = ["Daily Special", "Burgers", "Shakes & Sides", "Kids Meals"] as const;
+const categories = ["Daily Special", "Burgers", "Shakes & Sides", "Toppings", "Kids Meals"] as const;
 
 export default function MenuPage() {
   return (
