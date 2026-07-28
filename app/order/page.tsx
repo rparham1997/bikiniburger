@@ -6,20 +6,53 @@ import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Order Online",
-  description: "Order Bikini Burger delivery through partner apps and reserve merch for store pickup."
+  description: "Order Bikini Burger online for pickup or in-house delivery from Ardmore, PA."
 };
 
 export default function OrderPage() {
   return (
     <div className="bg-burger-cream pt-28">
-      <section className="px-4 py-14 sm:px-6 lg:px-8">
+      <section className="px-4 pb-28 pt-14 sm:px-6 lg:px-8 lg:pb-14">
         <div className="mx-auto max-w-7xl">
           <SectionHeading
             eyebrow="Order online"
-            title="Food delivery and merch pickup"
-            copy="Send food orders through DoorDash, Uber Eats, Seamless or Grubhub. Use the cart below to reserve merch for pickup at the shop."
+            title="Pickup and local delivery"
+            copy="Build a full Bikini Burger order, choose pickup or in-house delivery, then check out securely with Stripe."
           />
-          <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          <div className="mt-8 rounded-lg border border-black/10 bg-white p-6 shadow-sm">
+            <p className="text-sm font-black uppercase tracking-[0.2em] text-burger-red">Live checkout</p>
+            <h2 className="mt-3 font-display text-5xl uppercase leading-none text-black">Full menu ordering</h2>
+            <p className="mt-4 text-sm leading-6 text-black/64">
+              Add burgers, platters, sides, toppings, drinks, shakes, kids meals and merch below. Paid orders go through Stripe with customer details, receipt email and order notes attached.
+            </p>
+          </div>
+          <div className="mt-5 grid gap-4 md:grid-cols-3">
+            <div className="rounded-lg border border-black/10 bg-white p-5 shadow-sm">
+              <p className="text-sm font-black uppercase tracking-[0.18em] text-burger-red">Pickup</p>
+              <p className="mt-3 text-sm font-bold leading-6 text-black/64">
+                Pickup orders are prepared at 44 Rittenhouse Pl. Customers should bring their name and confirmation email.
+              </p>
+            </div>
+            <div className="rounded-lg border border-black/10 bg-white p-5 shadow-sm">
+              <p className="text-sm font-black uppercase tracking-[0.18em] text-burger-red">Local delivery</p>
+              <p className="mt-3 text-sm font-bold leading-6 text-black/64">
+                Delivery is handled by Bikini Burger drivers inside the active delivery area, with phone number and address required.
+              </p>
+            </div>
+            <div className="rounded-lg border border-black/10 bg-white p-5 shadow-sm">
+              <p className="text-sm font-black uppercase tracking-[0.18em] text-burger-red">Changes</p>
+              <p className="mt-3 text-sm font-bold leading-6 text-black/64">
+                After payment, call the shop right away for changes, cancellations or refund questions before the order is prepared.
+              </p>
+            </div>
+          </div>
+          <div className="mt-10">
+            <OrderProductPicker />
+          </div>
+          <div className="mt-10">
+            <OrderFlow />
+          </div>
+          <div className="mt-12 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             <a
               href={site.doorDashUrl}
               target="_blank"
@@ -68,19 +101,6 @@ export default function OrderPage() {
                 Another delivery checkout path for customers searching on Grubhub.
               </p>
             </a>
-          </div>
-          <div className="mt-4 rounded-lg border border-black/10 bg-white p-6 shadow-sm">
-              <p className="text-sm font-black uppercase tracking-[0.2em] text-burger-red">Shop cart</p>
-              <h2 className="mt-3 font-display text-5xl uppercase leading-none text-black">Merch pickup</h2>
-              <p className="mt-4 text-sm leading-6 text-black/64">
-                Add custom merch below for store pickup. Payment and final availability can be handled at the counter until live checkout is connected.
-              </p>
-          </div>
-          <div className="mt-10">
-            <OrderProductPicker />
-          </div>
-          <div className="mt-10">
-            <OrderFlow />
           </div>
         </div>
       </section>
