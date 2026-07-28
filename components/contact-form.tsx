@@ -7,24 +7,52 @@ import { buildContactHref, site } from "@/lib/site";
 export function ContactForm() {
   const [sent, setSent] = useState(false);
   const [href, setHref] = useState("");
+  const [status, setStatus] = useState("");
+  const [isSending, setIsSending] = useState(false);
 
   return (
     <form
       className="rounded-lg border border-black/10 bg-white p-6 shadow-sm"
-      onSubmit={(event) => {
+      onSubmit={async (event) => {
         event.preventDefault();
         const form = new FormData(event.currentTarget);
         const name = String(form.get("name") || "");
         const email = String(form.get("email") || "");
         const message = String(form.get("message") || "");
-
-        setHref(
-          buildContactHref(
-            `Website message from ${name}`,
-            `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`
-          )
+        const fallbackHref = buildContactHref(
+          `Website message from ${name}`,
+          `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`
         );
-        setSent(true);
+
+        setHref(fallbackHref);
+        setStatus("");
+        setIsSending(true);
+
+        try {
+          const response = await fetch("/api/contact", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              type: "contact",
+              subject: `Website message from ${name}`,
+              name,
+              email,
+              message
+            })
+          });
+          const data = await response.json();
+          if (!response.ok) {
+            throw new Error(data.error || "Unable to send message.");
+          }
+          setSent(true);
+          setStatus("Message sent to the shop.");
+          event.currentTarget.reset();
+        } catch (error) {
+          setSent(true);
+          setStatus(error instanceof Error ? error.message : "Message draft ready.");
+        } finally {
+          setIsSending(false);
+        }
       }}
     >
       <div className="grid gap-4">
@@ -57,17 +85,20 @@ export function ContactForm() {
             placeholder="Tell us what you need"
           />
         </label>
-        <button className="focus-ring inline-flex items-center justify-center gap-2 rounded-full bg-black px-6 py-4 text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-burger-red">
-          <Send size={18} /> Send message
+        <button
+          disabled={isSending}
+          className="focus-ring inline-flex items-center justify-center gap-2 rounded-full bg-black px-6 py-4 text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-burger-red disabled:cursor-not-allowed disabled:bg-black/35"
+        >
+          <Send size={18} /> {isSending ? "Sending" : "Send message"}
         </button>
         {sent && (
           <div className="rounded-md bg-burger-cream px-4 py-3 text-sm font-bold text-black">
-            <p>
-              Message ready. {site.email ? "Send it to the shop email now." : "Send it to the shop by text now."}
-            </p>
-            <a href={href} className="mt-3 inline-flex text-burger-red underline">
-              Open {site.email ? "email" : "text"} message
-            </a>
+            <p>{status}</p>
+            {status !== "Message sent to the shop." && (
+              <a href={href} className="mt-3 inline-flex text-burger-red underline">
+                Open {site.email ? "email" : "text"} message
+              </a>
+            )}
           </div>
         )}
       </div>
