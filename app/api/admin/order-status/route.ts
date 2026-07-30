@@ -1,12 +1,11 @@
 import { NextResponse } from "next/server";
+import { validateStatusUpdate } from "@/lib/admin-status";
 
 type StatusRequest = {
   password?: string;
   sessionId?: string;
   status?: string;
 };
-
-const allowedStatuses = new Set(["new", "preparing", "ready", "out_for_delivery", "completed", "canceled"]);
 
 export async function POST(request: Request) {
   if (!process.env.ADMIN_PASSWORD) {
@@ -18,22 +17,20 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid admin password." }, { status: 401 });
   }
 
-  if (!body.sessionId || (!body.sessionId.startsWith("cs_") && !body.sessionId.startsWith("demo_"))) {
-    return NextResponse.json({ error: "A valid Stripe session id is required." }, { status: 400 });
+  const statusUpdate = validateStatusUpdate(body.sessionId, body.status);
+  if (!statusUpdate.ok) {
+    return NextResponse.json({ error: statusUpdate.error }, { status: statusUpdate.statusCode });
   }
+  const { sessionId, status } = statusUpdate.value;
 
-  if (!body.status || !allowedStatuses.has(body.status)) {
-    return NextResponse.json({ error: "Choose a valid order status." }, { status: 400 });
-  }
-
-  if (!process.env.STRIPE_SECRET_KEY || body.sessionId.startsWith("demo_")) {
-    return NextResponse.json({ ok: true, status: body.status, demoMode: true });
+  if (!process.env.STRIPE_SECRET_KEY || sessionId.startsWith("demo_")) {
+    return NextResponse.json({ ok: true, status, demoMode: true });
   }
 
   const params = new URLSearchParams();
-  params.append("metadata[order_status]", body.status);
+  params.append("metadata[order_status]", status);
 
-  const response = await fetch(`https://api.stripe.com/v1/checkout/sessions/${body.sessionId}`, {
+  const response = await fetch(`https://api.stripe.com/v1/checkout/sessions/${sessionId}`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${process.env.STRIPE_SECRET_KEY}`,
@@ -50,5 +47,5 @@ export async function POST(request: Request) {
     );
   }
 
-  return NextResponse.json({ ok: true, status: body.status });
+  return NextResponse.json({ ok: true, status });
 }
