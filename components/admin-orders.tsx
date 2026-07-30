@@ -98,9 +98,9 @@ export function AdminOrders() {
   const [soundAlerts, setSoundAlerts] = useState(false);
   const [knownOrderIds, setKnownOrderIds] = useState<Set<string>>(new Set());
   const [newOrderNotice, setNewOrderNotice] = useState("");
-  const [demoMode, setDemoMode] = useState(false);
   const [rememberPassword, setRememberPassword] = useState(false);
   const [systemStatus, setSystemStatus] = useState<SystemStatus | null>(null);
+  const [ordersMessage, setOrdersMessage] = useState("");
 
   useEffect(() => {
     const savedPassword = window.localStorage.getItem("bikini-admin-password") || "";
@@ -179,7 +179,7 @@ export function AdminOrders() {
         setSystemStatus(statusData as SystemStatus);
       }
       const nextOrders = data.orders as AdminOrder[];
-      if (hasLoaded && !data.demoMode) {
+      if (hasLoaded) {
         const freshOrders = nextOrders.filter((order) => !knownOrderIds.has(order.id));
         if (freshOrders.length > 0) {
           setNewOrderNotice(`${freshOrders.length} new paid order${freshOrders.length === 1 ? "" : "s"} received.`);
@@ -192,7 +192,7 @@ export function AdminOrders() {
 
       setOrders(nextOrders);
       setKnownOrderIds(new Set(nextOrders.map((order) => order.id)));
-      setDemoMode(Boolean(data.demoMode));
+      setOrdersMessage(String(data.message || ""));
       setHasLoaded(true);
     } catch (loadError) {
       setError(loadError instanceof Error ? loadError.message : "Unable to load orders.");
@@ -502,20 +502,13 @@ export function AdminOrders() {
         </section>
       )}
 
-      {demoMode && (
-        <div className="rounded-lg border border-burger-red/30 bg-white p-5 shadow-sm">
-          <p className="text-sm font-black uppercase tracking-[0.2em] text-burger-red">Demo mode</p>
-          <p className="mt-2 text-sm leading-6 text-black/65">
-            These are sample orders for previewing the admin workflow. Real paid orders will appear here after Stripe is connected.
-          </p>
-        </div>
-      )}
-
       {hasLoaded && filteredOrders.length === 0 && (
         <div className="rounded-lg border border-black/10 bg-white p-8 text-center shadow-sm">
-          <p className="font-display text-4xl uppercase text-black">No matching orders</p>
+          <p className="font-display text-4xl uppercase text-black">
+            {orders.length === 0 ? "No real paid orders yet" : "No matching orders"}
+          </p>
           <p className="mt-3 text-sm leading-6 text-black/60">
-            Paid Stripe orders will appear here after customers complete checkout.
+            {ordersMessage || "Paid Stripe orders will appear here after customers complete checkout."}
           </p>
         </div>
       )}

@@ -19,14 +19,14 @@ test("rejects unsupported order statuses", () => {
   assert.equal(isValidOrderStatus(undefined), false);
 });
 
-test("accepts Stripe and demo order session ids", () => {
+test("accepts Stripe order session ids", () => {
   assert.equal(isValidAdminSessionId("cs_live_123"), true);
   assert.equal(isValidAdminSessionId("cs_test_123"), true);
-  assert.equal(isValidAdminSessionId("demo_pickup_1001"), true);
 });
 
 test("rejects unsafe or missing session ids", () => {
   assert.equal(isValidAdminSessionId("pi_123"), false);
+  assert.equal(isValidAdminSessionId("demo_pickup_1001"), false);
   assert.equal(isValidAdminSessionId("../cs_live_123"), false);
   assert.equal(isValidAdminSessionId(""), false);
   assert.equal(isValidAdminSessionId(undefined), false);

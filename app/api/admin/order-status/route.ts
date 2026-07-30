@@ -23,8 +23,8 @@ export async function POST(request: Request) {
   }
   const { sessionId, status } = statusUpdate.value;
 
-  if (!process.env.STRIPE_SECRET_KEY || sessionId.startsWith("demo_")) {
-    return NextResponse.json({ ok: true, status, demoMode: true });
+  if (!process.env.STRIPE_SECRET_KEY) {
+    return NextResponse.json({ error: "Stripe is not configured yet. Add STRIPE_SECRET_KEY in Vercel." }, { status: 503 });
   }
 
   const params = new URLSearchParams();

@@ -15,7 +15,7 @@ export const isValidOrderStatus = (status: unknown): status is OrderStatus =>
   typeof status === "string" && allowedStatuses.has(status);
 
 export const isValidAdminSessionId = (sessionId: unknown) =>
-  typeof sessionId === "string" && (sessionId.startsWith("cs_") || sessionId.startsWith("demo_"));
+  typeof sessionId === "string" && sessionId.startsWith("cs_");
 
 export const validateStatusUpdate = (sessionId: unknown, status: unknown) => {
   if (!isValidAdminSessionId(sessionId)) {

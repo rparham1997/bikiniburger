@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { demoOrders } from "@/lib/demo-orders";
 import { formatPrice } from "@/lib/menu";
 
 type AdminOrdersRequest = {
@@ -44,7 +43,11 @@ export async function POST(request: Request) {
   }
 
   if (!process.env.STRIPE_SECRET_KEY) {
-    return NextResponse.json({ orders: demoOrders, demoMode: true });
+    return NextResponse.json({
+      orders: [],
+      stripeConfigured: false,
+      message: "Stripe is not connected yet. Real paid orders will appear here after STRIPE_SECRET_KEY is added."
+    });
   }
 
   const params = new URLSearchParams({
@@ -98,5 +101,5 @@ export async function POST(request: Request) {
         })) || []
     }));
 
-  return NextResponse.json({ orders });
+  return NextResponse.json({ orders, stripeConfigured: true });
 }

@@ -100,7 +100,7 @@ https://bikiniburger.shop/api/stripe/webhook
 5. Copy the webhook signing secret into `STRIPE_WEBHOOK_SECRET`.
 6. Redeploy the site after saving env vars.
 
-Until Stripe is connected, checkout is intentionally disabled and the admin portal shows demo orders.
+Until Stripe is connected, checkout is intentionally disabled and the admin portal shows an empty real-order state with setup guidance.
 
 This V1 does not depend on Clover. Orders are handled through the custom website checkout, Stripe payments, owner alerts and the admin portal.
 
