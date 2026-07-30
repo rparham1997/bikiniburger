@@ -1,5 +1,5 @@
-import { createHmac, timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
+import { verifyStripeSignature } from "@/lib/stripe-webhook";
 
 type StripeEvent = {
   type: string;
@@ -34,34 +34,6 @@ const formatCents = (cents?: number | null) =>
     style: "currency",
     currency: "USD"
   }).format((cents ?? 0) / 100);
-
-const verifyStripeSignature = (payload: string, signatureHeader: string, secret: string) => {
-  const signatureParts = signatureHeader.split(",").reduce<Record<string, string[]>>((parts, pair) => {
-    const [key, value] = pair.split("=");
-    if (!key || !value) {
-      return parts;
-    }
-    return {
-      ...parts,
-      [key]: [...(parts[key] || []), value]
-    };
-  }, {});
-
-  const timestamp = signatureParts.t?.[0];
-  const signatures = signatureParts.v1 || [];
-  if (!timestamp || signatures.length === 0) {
-    return false;
-  }
-
-  const signedPayload = `${timestamp}.${payload}`;
-  const expectedSignature = createHmac("sha256", secret).update(signedPayload).digest("hex");
-  const expectedBuffer = Buffer.from(expectedSignature);
-
-  return signatures.some((signature) => {
-    const receivedBuffer = Buffer.from(signature);
-    return receivedBuffer.length === expectedBuffer.length && timingSafeEqual(receivedBuffer, expectedBuffer);
-  });
-};
 
 const fetchLineItems = async (sessionId: string) => {
   if (!process.env.STRIPE_SECRET_KEY) {
