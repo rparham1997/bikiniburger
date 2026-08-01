@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { verifyAdminPassword } from "@/lib/admin-auth";
 import { mapPaidStripeSessionsToAdminOrders, type StripeCheckoutSession } from "@/lib/admin-orders";
 
 type AdminOrdersRequest = {
@@ -6,13 +7,10 @@ type AdminOrdersRequest = {
 };
 
 export async function POST(request: Request) {
-  if (!process.env.ADMIN_PASSWORD) {
-    return NextResponse.json({ error: "Admin password is not configured yet." }, { status: 503 });
-  }
-
   const body = (await request.json()) as AdminOrdersRequest;
-  if (body.password !== process.env.ADMIN_PASSWORD) {
-    return NextResponse.json({ error: "Invalid admin password." }, { status: 401 });
+  const auth = verifyAdminPassword(body.password);
+  if (!auth.ok) {
+    return NextResponse.json({ error: auth.error }, { status: auth.statusCode });
   }
 
   if (!process.env.STRIPE_SECRET_KEY) {

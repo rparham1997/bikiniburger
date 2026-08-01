@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { verifyAdminPassword } from "@/lib/admin-auth";
 import { getStoreStatus } from "@/lib/store-status";
 import { site } from "@/lib/site";
 
@@ -9,13 +10,10 @@ type AdminStatusRequest = {
 const hasValue = (value: string | undefined) => Boolean(value && value.trim().length > 0);
 
 export async function POST(request: Request) {
-  if (!process.env.ADMIN_PASSWORD) {
-    return NextResponse.json({ error: "Admin password is not configured yet." }, { status: 503 });
-  }
-
   const body = (await request.json()) as AdminStatusRequest;
-  if (body.password !== process.env.ADMIN_PASSWORD) {
-    return NextResponse.json({ error: "Invalid admin password." }, { status: 401 });
+  const auth = verifyAdminPassword(body.password);
+  if (!auth.ok) {
+    return NextResponse.json({ error: auth.error }, { status: auth.statusCode });
   }
 
   const storeStatus = getStoreStatus();

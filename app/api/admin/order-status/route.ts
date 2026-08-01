@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { verifyAdminPassword } from "@/lib/admin-auth";
 import { validateStatusUpdate } from "@/lib/admin-status";
 
 type StatusRequest = {
@@ -8,13 +9,10 @@ type StatusRequest = {
 };
 
 export async function POST(request: Request) {
-  if (!process.env.ADMIN_PASSWORD) {
-    return NextResponse.json({ error: "Admin password is not configured yet." }, { status: 503 });
-  }
-
   const body = (await request.json()) as StatusRequest;
-  if (body.password !== process.env.ADMIN_PASSWORD) {
-    return NextResponse.json({ error: "Invalid admin password." }, { status: 401 });
+  const auth = verifyAdminPassword(body.password);
+  if (!auth.ok) {
+    return NextResponse.json({ error: auth.error }, { status: auth.statusCode });
   }
 
   const statusUpdate = validateStatusUpdate(body.sessionId, body.status);
